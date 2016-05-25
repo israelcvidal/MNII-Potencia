@@ -16,14 +16,19 @@ import java.util.ArrayList;
 public class PotenciaComDeslocamento {
 	public static void main(String[] args) {
 		ArrayList< ArrayList<Double> > A = new ArrayList<ArrayList<Double>>();
-		ArrayList< ArrayList<Double> > Amodificada = new ArrayList<ArrayList<Double>>();
+		ArrayList< ArrayList<Double> > Amodificada;
 		ArrayList<Double> vk, vk1, phik, intervalo; 
-		double lambidak, lambidak1, tamIntervalo;
+		double lambidak, lambidak1, tamIntervalo, mi;
 		Retorno arquivo = null;
 		Retorno ret;
 		
 		try {
-			arquivo = ManipuladorArquivo.leitor("/Users/israelcvidal/Documents/workspace/MNII-potencia/matriz.txt");
+			//meu notebook
+			//arquivo = ManipuladorArquivo.leitor("/Users/israelcvidal/Documents/workspace/MNII-potencia/matriz.txt");
+			
+			//lab2
+			arquivo = ManipuladorArquivo.leitor("/home/israel/workspace/MNII-Potencia/matriz.txt");
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -50,11 +55,22 @@ public class PotenciaComDeslocamento {
 		System.out.println("O vetor inicial foi: " + arquivo.getVetor());
 		
 		//pegando o intervalo onde estão os autovalores
-		intervalo = DiscosDeGerschgorin.resolver(A);
+		intervalo = MatrixOperations.discosDeGerschgorin(A);
 		//pegando o tamanho absoluto do intervalo
 		tamIntervalo = Math.abs( Math.abs(intervalo.get(1)) - Math.abs(intervalo.get(0)) );
 		
-		System.out.println("Intervalo = " + intervalo + "\nTamanho do intervalo = " + tamIntervalo);;
+		
+		//dividindo o intervalo em partes iguais e calculando o mi
+		for (double i = 0; i < tamIntervalo; i++) {
+			//mi = tam/4*tam
+			mi = intervalo.get(0) + i*(tamIntervalo / (4*tamIntervalo));
+			
+			//Construindo Amodificada
+			Amodificada = MatrixOperations.subMatrizEscalar(A, mi);
+		}
+		
+	
+	
 	}
 	
 	

@@ -127,4 +127,70 @@ public class MatrixOperations {
 		return x;
 		
 	}			//fim metodo
+
+
+
+	public static ArrayList<Double> discosDeGerschgorin( ArrayList<ArrayList<Double>> matriz){
+		double n = matriz.size(), menor, maior, diagonal = 0, soma = 0;
+		double menortemp = 0, maiortemp = 0;
+		ArrayList<Double> resposta = new ArrayList<Double>();
+		
+		//pegando o primeiro valor para menor e maior
+		diagonal = matriz.get(0).get(0);
+		for (int i = 1; i < n; i++) {
+			soma += matriz.get(0).get(i);  
+		}
+		menortemp = menor = diagonal - soma;
+		maiortemp = maior = diagonal + soma;
+		
+		//calculando a partir da segunda linha
+		for (int i = 1; i < n; i++) {
+			soma = 0;
+			for (int j = 0; j < n; j++) {
+				if(i == j ){
+					diagonal = matriz.get(i).get(j); 
+				}else{
+					soma += Math.abs(matriz.get(i).get(j)); 	
+				}
+			}
+			//calculando o menor e o maior da linha corrente
+			menortemp = diagonal - soma;
+			maiortemp = diagonal + soma;
+			
+			//comparando para pegar o menor e maior global. 
+			if(menortemp < menor){
+				menor = menortemp;
+			}
+			
+			if(maiortemp > maior){
+				maior = maiortemp;
+			}
+		}
+		
+		//retornando o intervalo.
+		resposta.add(0, menor);
+		resposta.add(1, maior);
+	
+		return resposta;
+	}
+
+	
+	//Subtração de uma matriz por um escalar
+	public static ArrayList<ArrayList<Double>> subMatrizEscalar(ArrayList<ArrayList<Double>> A, double b){
+		double aux;
+		
+		for (int i = 0; i < A.size(); i++) {
+			for (int j = 0; j < A.size(); j++) {
+				aux = A.get(i).get(j);
+				A.get(i).remove(j);
+				A.get(i).add(j, aux - b);
+			}
+		}
+		
+		return A;
+		
+	}
+	
+
+
 }
