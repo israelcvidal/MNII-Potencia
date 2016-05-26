@@ -67,7 +67,7 @@ public class PotenciaComDeslocamento {
 			
 			//Construindo AModificada
 			AModificada = MatrixOperations.subMatrizEscalar(A, mi);
-		
+		//teste
 		}
 		
 	
