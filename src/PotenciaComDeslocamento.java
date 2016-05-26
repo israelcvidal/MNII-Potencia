@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class PotenciaComDeslocamento {
 	public static void main(String[] args) {
 		ArrayList< ArrayList<Double> > A = new ArrayList<ArrayList<Double>>();
-		ArrayList< ArrayList<Double> > Amodificada;
+		ArrayList< ArrayList<Double> > AModificada;
 		ArrayList<Double> vk, vk1, phik, intervalo; 
 		double lambidak, lambidak1, tamIntervalo, mi;
 		Retorno arquivo = null;
@@ -24,10 +24,10 @@ public class PotenciaComDeslocamento {
 		
 		try {
 			//meu notebook
-			//arquivo = ManipuladorArquivo.leitor("/Users/israelcvidal/Documents/workspace/MNII-potencia/matriz.txt");
+			arquivo = ManipuladorArquivo.leitor("/Users/israelcvidal/Documents/workspace/MNII-potencia/matriz.txt");
 			
 			//lab2
-			arquivo = ManipuladorArquivo.leitor("/home/israel/workspace/MNII-Potencia/matriz.txt");
+			//arquivo = ManipuladorArquivo.leitor("/home/israel/workspace/MNII-Potencia/matriz.txt");
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -65,8 +65,9 @@ public class PotenciaComDeslocamento {
 			//mi = tam/4*tam
 			mi = intervalo.get(0) + i*(tamIntervalo / (4*tamIntervalo));
 			
-			//Construindo Amodificada
-			Amodificada = MatrixOperations.subMatrizEscalar(A, mi);
+			//Construindo AModificada
+			AModificada = MatrixOperations.subMatrizEscalar(A, mi);
+		
 		}
 		
 	
