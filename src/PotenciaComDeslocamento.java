@@ -21,6 +21,11 @@ public class PotenciaComDeslocamento {
 		double lambida, lambidaBarra, tamIntervalo, mi;
 		Retorno arquivo = null;
 		Retorno ret;
+		int count = 0;
+		ArrayList<Double> listaLambidas = new ArrayList<Double>();
+		ArrayList<ArrayList<Double>> listaPhis = new ArrayList<ArrayList<Double>>();
+		ArrayList<Double> listaMis = new ArrayList<Double>();
+		double passo = 0;
 		
 		try {
 			//meu notebook
@@ -55,13 +60,13 @@ public class PotenciaComDeslocamento {
 		//pegando o intervalo onde estão os autovalores
 		intervalo = MatrixOperations.discosDeGerschgorin(A);
 		//pegando o tamanho absoluto do intervalo
-		tamIntervalo = Math.abs( Math.abs(intervalo.get(1)) - Math.abs(intervalo.get(0)) );
+		tamIntervalo = Math.abs( intervalo.get(1) - intervalo.get(0) );
 		
+		passo = tamIntervalo/(5*A.size());
 		
 		//dividindo o intervalo em partes iguais e calculando o mi
-		for (double i = 0; i <= tamIntervalo; i+=tamIntervalo/(5*A.size())) {
-			//mi = tam/4*tam
-			mi = intervalo.get(0) + i*(tamIntervalo / A.size() );
+		for (double i = 0; i <= 5*A.size(); i++ ) {
+			mi = intervalo.get(0) + i*passo ;
 			
 			//Construindo AModificada
 			AModificada = MatrixOperations.subMatrizes(A, MatrixOperations.matEscalar(I, mi) );
@@ -76,14 +81,24 @@ public class PotenciaComDeslocamento {
 			//pegando o autovalor da matriz A
 			lambida = lambidaBarra + mi;
 			
-			System.out.println("mi("+i+") = " + mi);
-			System.out.println("lambida("+i+") ="+ lambida);
-			System.out.println("phik("+i+") ="+ phik);
-			System.out.println(i);
-			System.out.println();
+			System.out.println("mi("+count+") = " + mi);
+			System.out.println("lambida("+count+") ="+ lambida);
+			System.out.println("phik("+count+") ="+ phik);
+			System.out.println("-------------------------------------------------------------------------------");
+			
+			listaMis.add(count, mi);
+			listaLambidas.add(count, lambida);
+			listaPhis.add(count, phik);
+			
+			count++;
 		}
 			
-		
+		try {
+			ManipuladorArquivo.escritor("/Users/israelcvidal/Documents/workspace/MNII-potencia/resultado.txt", listaMis, listaLambidas, listaPhis);;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	

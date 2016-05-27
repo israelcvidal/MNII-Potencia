@@ -63,5 +63,15 @@ public class ManipuladorArquivo {
 		buffWrite.close();
 	}
 	
+	public static void escritor(String path, ArrayList<Double> mi, ArrayList<Double> autovalor, ArrayList<ArrayList<Double>> autovetor) throws IOException{
+		BufferedWriter buffWrite = new BufferedWriter(new FileWriter(path));
+		
+		for (int i = 0; i < autovalor.size(); i++) {
+			buffWrite.write("Mi("+i+") = " + mi.get(i) +"\nAutovalor("+ i +") = " + autovalor.get(i) + "\nAutovetor("+i +") = "+  autovalor.get(i).toString() + "\n---\n");
+		}
+		
+		buffWrite.close();
+	}
+	
 }
 
