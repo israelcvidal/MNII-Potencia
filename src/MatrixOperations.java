@@ -2,6 +2,34 @@ import java.util.ArrayList;
 
 public class MatrixOperations {
 	
+	
+	
+	//multiplicando uma matri por um escalar
+	public static ArrayList<ArrayList<Double>> matEscalar(ArrayList<ArrayList<Double>> A ,  double b ){
+		double aux;
+		ArrayList<ArrayList<Double>> resultado = new ArrayList<ArrayList<Double>>();
+		
+		//dimensionando a matriz resultado
+		for (int i = 0; i < A.size(); i++) {
+			resultado.add(new ArrayList<Double>());	
+		}
+		
+		
+		for (int i = 0; i < A.size(); i++) {
+			for (int j = 0; j < A.get(0).size(); j++) {
+				aux = A.get(i).get(j);
+				resultado.get(i).add(j, aux * b);
+			}
+		}
+		
+		return resultado;
+	}
+	
+	
+	
+	
+	
+	
 	//multiplicando uma matriz por um vetor
 	public static ArrayList<Double> matvet (ArrayList<ArrayList<Double>> mat, ArrayList<Double> vet ){
 		ArrayList<Double> c = new ArrayList<Double>();
@@ -129,7 +157,7 @@ public class MatrixOperations {
 	}			//fim metodo
 
 
-
+	//retorno o intervalo gerado de acordo com os discos de gerschgorin.
 	public static ArrayList<Double> discosDeGerschgorin( ArrayList<ArrayList<Double>> matriz){
 		double n = matriz.size(), menor, maior, diagonal = 0, soma = 0;
 		double menortemp = 0, maiortemp = 0;
@@ -180,7 +208,7 @@ public class MatrixOperations {
 		double aux;
 		
 		for (int i = 0; i < A.size(); i++) {
-			for (int j = 0; j < A.size(); j++) {
+			for (int j = 0; j < A.get(0).size(); j++) {
 				aux = A.get(i).get(j);
 				A.get(i).remove(j);
 				A.get(i).add(j, aux - b);
@@ -188,9 +216,89 @@ public class MatrixOperations {
 		}
 		
 		return A;
-		
 	}
 	
+	
+	//criar a matriz identidade
+	public static ArrayList<ArrayList<Double>> criarIdentidade(double n){
+		ArrayList<ArrayList<Double>> I = new ArrayList<ArrayList<Double>>(); 
+
+		
+		//dimensionando a matriz identidade
+		for (int i = 0; i < n; i++) {
+			I.add(new ArrayList<Double>());
+		}
+	
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				if(i==j){
+					I.get(i).add(j, (double)1);
+				}else{
+					I.get(i).add(j, (double)0);
+				}
+			}
+		}
+				
+		return I;
+	}
+	
+	
+	//Multiplicar duas matrizes
+	public static ArrayList<ArrayList<Double>> multiplicarMatrizes(ArrayList<ArrayList<Double>> A, ArrayList<ArrayList<Double>> B){
+		ArrayList<ArrayList<Double>> matResultado = new ArrayList<ArrayList<Double>>();
+		double sum = 0;
+		
+		//so posso multiplicar duas matrizes se o numero de colunas da primeira for igual ao numero de linhas da segunda
+		if(A.get(0).size() != B.size()){
+			System.out.println("Nao eh possivel multiplicar as matrizes");
+			return null;
+		}
+		
+		//dimensionando a matriz resultado
+		for (int i = 0; i < A.size(); i++) {
+			matResultado.add(new ArrayList<Double>());
+		}
+		
+		
+		for (int i = 0; i < A.size(); i++) {
+			for (int j = 0; j < B.get(0).size() ; j++) {
+				sum = 0;
+				for (int j2 = 0; j2 < A.get(0).size() ; j2++) {
+					sum += A.get(i).get(j2)*B.get(j2).get(j);
+				}
+				matResultado.get(i).add(j, sum);
+			}
+		}
+		
+		return matResultado;
+		
+	}
+
+	//Subtrair duas matrizes
+	public static ArrayList<ArrayList<Double>> subMatrizes(ArrayList<ArrayList<Double>> A, ArrayList<ArrayList<Double>> B){
+		ArrayList<ArrayList<Double>> matResultado = new ArrayList<ArrayList<Double>>();
+		
+		//so posso multiplicar duas matrizes se o numero de colunas da primeira for igual ao numero de linhas da segunda
+		if(A.size() != B.size() || A.get(0).size() != B.get(0).size()){
+			System.out.println("Nao eh possivel subtrair as matrizes");
+			return null;
+		}
+		
+		//dimensionando a matriz resultado
+		for (int i = 0; i < A.size(); i++) {
+			matResultado.add(new ArrayList<Double>());
+		}
+		
+		
+		for (int i = 0; i < A.size(); i++) {
+			for (int j = 0; j < B.get(0).size() ; j++) {
+				matResultado.get(i).add(j, A.get(i).get(j) - B.get(i).get(j));
+			}
+		}
+		
+		return matResultado;
+		
+	}
 
 
 }

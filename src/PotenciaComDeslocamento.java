@@ -16,9 +16,9 @@ import java.util.ArrayList;
 public class PotenciaComDeslocamento {
 	public static void main(String[] args) {
 		ArrayList< ArrayList<Double> > A = new ArrayList<ArrayList<Double>>();
-		ArrayList< ArrayList<Double> > AModificada;
-		ArrayList<Double> vk, vk1, phik, intervalo; 
-		double lambidak, lambidak1, tamIntervalo, mi;
+		ArrayList< ArrayList<Double> > AModificada, I;
+		ArrayList<Double> vk1, phik, intervalo; 
+		double lambida, lambidaBarra, tamIntervalo, mi;
 		Retorno arquivo = null;
 		Retorno ret;
 		
@@ -38,15 +38,13 @@ public class PotenciaComDeslocamento {
 		A = arquivo.getMatriz();
 		
 		//Criando os vetores
-		vk = new ArrayList<Double>();
 		phik = new ArrayList<Double>();
 		
 		// criando e inicializando autovetor inicial
 		vk1 = arquivo.getVetor();
 		
-		//autovalor inicial
-		lambidak1 = 0;
-		
+		//Criando a matriz identidade NxN
+		I = MatrixOperations.criarIdentidade(A.size());
 		
 		
 		System.out.println("MN II - Autovalores e Autovetores \nIsrael de Castro Vidal - 370019");
@@ -61,16 +59,31 @@ public class PotenciaComDeslocamento {
 		
 		
 		//dividindo o intervalo em partes iguais e calculando o mi
-		for (double i = 0; i < tamIntervalo; i++) {
+		for (double i = 0; i <= tamIntervalo; i+=tamIntervalo/(5*A.size())) {
 			//mi = tam/4*tam
-			mi = intervalo.get(0) + i*(tamIntervalo / (4*tamIntervalo));
+			mi = intervalo.get(0) + i*(tamIntervalo / A.size() );
 			
 			//Construindo AModificada
-			AModificada = MatrixOperations.subMatrizEscalar(A, mi);
-		}
+			AModificada = MatrixOperations.subMatrizes(A, MatrixOperations.matEscalar(I, mi) );
 		
-	
-	
+			ret = PotenciaInversa.resolver(AModificada, vk1, arquivo.getTolerancia());
+		
+			//o autovetor da matriz inversa é o autovetor da matriz normal
+			//o autovalor da inversa é o da normal + mi
+			lambidaBarra = ret.getAutovalor();
+			phik = ret.getAutovetor();
+			
+			//pegando o autovalor da matriz A
+			lambida = lambidaBarra + mi;
+			
+			System.out.println("mi("+i+") = " + mi);
+			System.out.println("lambida("+i+") ="+ lambida);
+			System.out.println("phik("+i+") ="+ phik);
+			System.out.println(i);
+			System.out.println();
+		}
+			
+		
 	}
 	
 	
